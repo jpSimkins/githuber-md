@@ -1,18 +1,19 @@
 === WP Githuber MD - WordPress Markdown Editor ===
 Contributors: terrylin
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=donate%40terryl.in&item_name=WordPress+Plugin+-+WP+Githuber+MD&currency_code=USD&source=url
 Tags: markdown, markdown editor, katex, mermaid, flow chart, github
 Requires at least: 4.0
-Tested up to: 5.0.3
-Stable tag: 1.5.3
-Requires PHP: 5.3.6
+Tested up to: 5.3.0
+Stable tag: 1.12.1
+Requires PHP: 5.3.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl.html
 
 == Description ==
 
-An all-in-on [WordPress Markdown Plugin](https://terryl.in/en/repository/wordpress-markdown-plugin-githuber-md/) provides a variety of features such as Markdown editor, live-preivew, image-paste, HTML-to-Markdown helper, and more..
+An all-in-on WordPress Markdown Plugin provides a variety of features such as Markdown editor, live-preivew, image-paste, HTML-to-Markdown helper, and more..
 
-Read detailed document, please visit [Wiki](https://github.com/terrylinooo/githuber-md/wiki).
+Read detailed document, please visit [https://github.com/terrylinooo/githuber-md](https://github.com/terrylinooo/githuber-md).
 
 == Demo ==
 
@@ -50,16 +51,21 @@ If you're planning to use this plugin in an existing blog, be sure to:
 
 == Features ==
 
-* Markdown editor.
-* Live preivew.
+* [Markdown editor](https://markdown-editor.github.io/).
+* Live preview.
+* Spell check.
+* Enable / disable Markdown for single post.
+* Support Gutenberg editor.
+* Support custom post types.
+* Syntax highlighting.
 * [HTML-to-Markdown helper](https://terryl.in/en/githuber-md-html2markdown/).
 * [Image copy & paste](https://terryl.in/en/githuber-md-image-paste/). (support uploading to Imgur)
-* Syntax highlighting
 * [Flow chart](https://terryl.in/en/githuber-md-flow-chart/).
 * [KaTex](https://terryl.in/en/githuber-md-katax/).
 * [Sequence diagram](https://terryl.in/en/githuber-md-sequence-diagrams/). (#1)
 * [Mermaid](https://terryl.in/en/githuber-md-mermaid/).
 * Github flavored Markdown task list.
+* Githuber MD extended Markdown.
 * Markdown extra...
 
 == Frequently Asked Questions ==
@@ -68,7 +74,7 @@ You'll find answers to many of your questions on [Report issues](https://github.
 
 == Translations ==
 
-Traditional Chinese (zh_TW) by [阿力獅](https://www.alexclassroom.com/)
+Traditional Chinese (zh_TW) by [Alex Lion](https://www.alexclassroom.com/)
 Simplified Chinese (zh_CN)
 
 == Screenshots ==
@@ -81,8 +87,10 @@ Simplified Chinese (zh_CN)
 6. KaTex.
 7. Flow Chart.
 8. Sequence Diagram.
-9. Setting Page 1.
-10. Setting page 2.
+9. Setting Page 1. (Markdown)
+10. Setting page 2. (Modules)
+10. Setting page 3. (Extensions)
+10. Setting page 4. (Preferences)
 
 == Copyright ==
 
@@ -173,10 +181,153 @@ GNU General Public License for more details.
 
 * Support cusotm post types.
 * Add `Enable Markdown` option beside editor.
+* Support Gutenberg editor. Now you are able to disable Markdown for a post then back to use Gutenberg editor.
 
-== Known Issues ==
+= 1.6.2
 
-* #1 - Sequence Diagram: this feature is only available in WordPress version > 4.5, because it uses underscore.js, and it has confict issues with WordPress' plupload uploader in early version. You can use Mermaid instead of it. We have already hidden this option in setting while an user uses that version < 4.5
+* Add a new setting option in ImagePaste module. (feature request #16)
+* Add new option when using `Add media -> Insert to post` that allows user insert HTML into post. (feature request #17)
+* Fix bug: Classic editor's visual mode is not showed after disabling post type option. (issue #15)
+* Imporve: Beautify Markdown switcher.
+
+= 1.7.0
+
+* Improve setting page UI.
+* Add examples in setting pages.
+* Issue #22 - footnote.
+* Feautue request #19 - Add support to shortcode.
+* And other issues...
+
+= 1.7.1
+
+* Bug fix and a bit improvement.
+
+= 1.7.2
+
+* Fix issue: disable-revisions not working.
+* Add donation information.
+
+= 1.7.3
+
+* Fix issues: #29, issue #30 and issue #31.
+* Fix issue: Makrdown extra not working.
+
+= 1.7.4
+
+* Fix Javascript syntax error (Link Opening Method).
+
+= 1.8.0
+
+* Fix issue #39: Live-preview doesn't react when Sync Scrolling is off.
+* Feature request #36: Image-paste - add suport to sm.ms (another image hosting service)
+* Fix bug: register_activation_hook does not implement when activating plugin at the first time.
+* Fix issue: incorrect variable name in unstall.php.
+
+= 1.8.1
+
+* Fix issue: wp_get_attachment_url() doesn't distinguish whether a page request arrives via HTTP or HTTPS
+* Fix issue #38 - preserve inline code block.
+* Add Simplified Chinese language package.
+
+= 1.8.2
+
+* Fix issue #42: Markdown syntax takes effect between two inline code blocks.
+
+= 1.8.5
+
+* Add feature: Githuber MD extensions - Inline code block with keyboard style. Example: `{ctrl}`
+* Fix issue: inline code block doesn't work on just one character, for example `a`. This issue is associated with issue #42
+
+= 1.8.6
+
+* Fix issue #44: Unable to insert linked images.
+* Fix issue #45: HTML-to-Markdown doesn't transform table as expected.
+
+= 1.9.0
+
+* Add feature: TOC (Table of content) module.
+* Add feature: Transform `&amp;` to `&` in URLs.
+
+= 1.9.1
+
+* Fix issue #48: Because some systems don't have `php_fileinfo` installed, use `$_FILES['type']` instead.
+
+= 1.10.0
+
+* Feature request #53: Add `Copy-to-Clipboard` button on syntax highlighting code blocks.
+* Fix issue #52 - Remove auto-match highlighter.
+* Fix issue #57 - Preserve code blocks in a list.
+
+= 1.10.1
+
+* Feature request #59: Move the front added .css and .js to the inline script section.
+* Issue #62: Fix add media button that is invalid for other types of media files such as audio.
+* Fix incorrect link coloring in marked.js
+* Issue #49: Images are inserted at the end of the document.
+
+= 1.11.0
+
+* Feature request #65: Spell check.
+* Add new settings in the Preferences tab.
+
+= 1.11.1
+
+* Fix issue #68: Cannot display javascript template text correctly on code blocks.
+* Fix issue: TOC should not be displayed on homepage and archive pages.
+* Improve: Spellcheck compatibility check.
+* Improve: Allow Markdown syntax in code blocks.
+
+= 1.11.2
+
+* Fix issue #31 - This issue occurred again because of the modification of #57.
+
+= 1.11.3
+
+* Fix issue #70: Bug occurs when adding featured image.
+* Fix issue #71: Support Shortcodes Ultimate plugin.
+
+= 1.11.4
+
+* Fix issue #72: Syntax highlight - use prism autoloader plugin instead.
+* Feature request #74: Add an option for match highlighter.
+
+= 1.11.5
+
+- Jetpack compatibility #80, #81, thanks @jeherve 
+- Fix issue #92
+- Remove donation information.
+
+= 1.11.6
+
+- Fix issue #89 - Code block parsing problems.
+- Fix issue #96 - KaTex not working when using only inline syntax.
+
+= 1.11.7
+
+- Fix issue #99 - a CSS conflict in menu page.
+- Fix issue #91 - post_id check.
+- Feature request #98 - Add a new option in Preferences.
+
+= 1.11.8
+
+- Fix issue #107 - Fix parsing inline KaTax syntax.
+- Fix issue #104 - UL list does not display correctly in the preview panel.
+
+= 1.11.9
+
+- Fix issue #126 - Conflict with WordPress 5.3 ( `add_plugins_menu` function changes )
+- PR #118 - Allow adding links to other file types rather than only inserting images.
+
+= 1.12.0
+
+- Feature request #75 - Save images to local folder.
+- New feature - Syntax highlighter by highlight.js
+- Hide `support comment` option because it doesn't work now.
+- Update uninstall.php
+
+= 1.12.1
+
+- Move settings to the option submenu.
 
 == Upgrade Notice ==
 

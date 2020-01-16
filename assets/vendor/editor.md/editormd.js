@@ -129,7 +129,7 @@
 		matchBrackets        : true,
 		indentWithTabs       : true,
 		styleSelectedText    : true,
-        matchWordHighlight   : true,           // options: true, false, "onselected"
+        matchWordHighlight   : "onselected",           // options: true, false, "onselected"
         styleActiveLine      : true,           // Highlight the current line
         dialogLockScreen     : true,
         dialogShowMask       : true,
@@ -178,6 +178,7 @@
         sequenceDiagram      : false,          // sequenceDiagram.js only support IE9+
         previewCodeHighlight : true,
         previewCodeLineNumber: false,
+        spellCheck           : false,
                 
         toolbar              : true,           // show/hide toolbar
         toolbarAutoFixed     : true,           // on window scroll auto fixed position
@@ -194,7 +195,7 @@
         toolbarCustomIcons   : {               // using html tag create toolbar icon, unused default <a> tag.
             lowercase        : "<a href=\"javascript:;\" title=\"Lowercase\" unselectable=\"on\"><i class=\"fa\" name=\"lowercase\" style=\"font-size:24px;margin-top: -10px;\">a</i></a>",
             "ucwords"        : "<a href=\"javascript:;\" title=\"ucwords\" unselectable=\"on\"><i class=\"fa\" name=\"ucwords\" style=\"font-size:20px;margin-top: -3px;\">Aa</i></a>"
-        }, 
+        },
         toolbarIconsClass    : {
             undo             : "fa-undo",
             redo             : "fa-repeat",
@@ -230,7 +231,7 @@
             search           : "fa-search",
             fullscreen       : "fa-arrows-alt",
             clear            : "fa-eraser",
-            help             : "fa-question-circle",
+            help             : "fa-question",
             info             : "fa-info-circle"
         },        
         toolbarIconTexts     : {},
@@ -560,6 +561,8 @@
             }
 
             editormd.loadScript(loadPath + "codemirror/codemirror.min", function() {
+
+                // Load CodeMirror.js
                 editormd.$CodeMirror = CodeMirror;
                 
                 editormd.loadScript(loadPath + "codemirror/modes.min", function() {
@@ -577,8 +580,8 @@
                         }
 
                         _this.setToolbar();
-
-                        editormd.loadScript(loadPath + "marked.min.20190201", function() {
+                        
+                        editormd.loadScript(loadPath + "marked.20190506.min", function() {
 
                             editormd.$marked = marked;
                              
@@ -696,9 +699,20 @@
             {
                 editormd.loadCSS(settings.path + "codemirror/theme/" + settings.editorTheme);
             }
+
+            if (settings.spellCheck) {
+                var primaryMode = 'spell-checker';
+
+                CodeMirrorSpellChecker({
+                    codeMirrorInstance: CodeMirror,
+                });
+            } else {
+                var primaryMode = settings.mode;
+            }
             
             var codeMirrorConfig = {
-                mode                      : settings.mode,
+                mode                      : primaryMode,
+                backdrop                  : settings.mode,
                 theme                     : settings.editorTheme,
                 tabSize                   : settings.tabSize,
                 dragDrop                  : false,
@@ -721,8 +735,11 @@
                 styleSelectedText         : settings.styleSelectedText,
                 autoCloseBrackets         : settings.autoCloseBrackets,
                 showTrailingSpace         : settings.showTrailingSpace,
+                spellcheck                : settings.spellCheck,
                 highlightSelectionMatches : ( (!settings.matchWordHighlight) ? false : { showToken: (settings.matchWordHighlight === "onselected") ? false : /\w/ } )
             };
+
+
 
             this.codeEditor = this.cm        = editormd.$CodeMirror.fromTextArea(this.markdownTextarea[0], codeMirrorConfig);
             this.codeMirror = this.cmElement = editor.children(".CodeMirror");
@@ -731,9 +748,7 @@
                 inlineAttachment.defaults.uploadUrl = settings.imagePasteCallback;
                 inlineAttachment.editors.codemirror4.attach(this.codeEditor);
             }
-
-            
-            
+ 
             if (settings.value !== "")
             {
                 this.cm.setValue(settings.value);
@@ -1782,7 +1797,7 @@
             var settings         = this.settings;
             
             if (!settings.syncScrolling) {
-                return this;
+            //    return this;
             }
             
             cm.on("change", function(_cm, changeObj) {

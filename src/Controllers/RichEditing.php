@@ -11,70 +11,37 @@
  */
 
 namespace Githuber\Controller;
+use Githuber\Controller\Monolog as Monolog;
 
-class RichEditing extends ControllerAbstract {
+class RichEditing {
 
-    const MD_POST_META_DISABLED = '_is_githuber_md_disabled';
+	const MD_POST_META_ENABLED  = '_is_githuber_markdown_enabled';
 
 	/**
 	 * Constructer.
 	 */
 	public function __construct() {
-		parent::__construct();
+
 	}
 
 	/**
-	 * Initialize.
-	 */
-
-	public function init() {
-
-    }
-
-	/**
-	 * Register CSS style files.
-	 */
-	public function admin_enqueue_styles( $hook_suffix ) {
-
-    }
-
-	/**
-	 * Register JS files.
-	 */
-    public function admin_enqueue_scripts( $hook_suffix ) {
-
-    }
-
-	/**
 	 * Enable rich editor.
 	 */
-	function enable() {
+	public function enable() {
 		add_action( 'admin_init', array( $this, '_rich_editing_true' ) );
-    }
-    
+	}
+		
 	/**
 	 * Enable rich editor.
 	 */
-	function disable() {
+	public function disable() {
 		add_action( 'admin_init', array( $this, '_rich_editing_false' ) );
-    }
-    
-    /**
-	 * Get current postmeta.
-	 */
-    function is_current_post_markdown_enabled() {
-        $post_id = githuber_get_current_post_id();
-
-		$markdown_per_post = get_metadata( 'post', $post_id, self::MD_POST_META_DISABLED, true );
-        $is_markdowin      = (bool) $markdown_per_post;
-
-        return $is_markdowin;
-    }
-
+	}
+		
 	/**
 	 * Apply hook for enabling rich editor.
 	 */
-	function _rich_editing_true() {
+	public function _rich_editing_true() {
 		global $current_user;
 
 		if ( ! user_can_richedit() ) {
@@ -83,15 +50,33 @@ class RichEditing extends ControllerAbstract {
 		add_filter( 'user_can_richedit' , '__return_true', 50 );
 	}
 
-    /**
+		/**
 	 * Apply hook for disabling rich editor.
 	 */
-	function _rich_editing_false() {
+	public function _rich_editing_false() {
 		global $current_user;
 
 		if ( user_can_richedit() ) {
 			update_user_option( $current_user->ID, 'rich_editing', 'false', true );
 		}
 		add_filter( 'user_can_richedit' , '__return_false', 50 );
-    }  
+	}
+
+	/**
+	 * Enable Gutenberg.
+	 */
+	public function enable_gutenberg() {
+		if ( $GLOBALS['wp_version'] > '5.0' ) {
+			add_filter('use_block_editor_for_post', '__return_true', 5);
+		}
+	}
+
+	/**
+	 * Disable Gutenberg.
+	 */
+	public function disable_gutenberg() {
+		if ( $GLOBALS['wp_version'] > '5.0' ) {
+			add_filter('use_block_editor_for_post', '__return_false', 5);
+		}
+	}
 }

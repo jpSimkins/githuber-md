@@ -33,7 +33,7 @@ class KaTeX extends ModuleAbstract {
 	/**
 	 * Constants.
 	 */
-	const MD_POST_META_KATEX    = '_is_githuber_katex';
+	const MD_POST_META_KATEX = '_is_githuber_katex';
 
 	/**
 	 * Constructer.
@@ -130,13 +130,26 @@ class KaTeX extends ModuleAbstract {
 										}
 									}
 								});
-                            }
+							}
+							if ($(".katex-inline").length > 0) {
+								$(".katex-inline").each(function() {
+									var katexText = $(this).text();
+									var el = $(this).get(0);
+									if ($(this).parent("code").length == 0) {
+										try {
+											katex.render(katexText, el)
+										} catch (err) {
+											$(this).html("<span class=\'err\'>" + err)
+										}
+									}
+								});
+							}
 						}
 					});
                 })(jQuery);
 			</script>
 		';
-		echo $script;
+		echo preg_replace( '/\s+/', ' ', $script );
 	}
 
 	/**
@@ -150,14 +163,14 @@ class KaTeX extends ModuleAbstract {
 	 */
 	public static function katex_inline_markup( $content ) {
 
-		$regex = '%<code>\$\$*((?:[^$]+ |(?<=(?<!\\\\)\\\\)\$ )+)(?<!\\\\)\$*\$<\/code>%ix';
+		$regex = '%<code>\$\$((?:[^$]+ |(?<=(?<!\\\\)\\\\)\$ )+)(?<!\\\\)\$\$<\/code>%ix';
 		$content = preg_replace_callback( $regex, function() {
 			$matches = func_get_arg(0);
 
 			if ( ! empty( $matches[1] ) ) {
 				$katex = $matches[1];
 				$katex = str_replace( array( '&lt;', '&gt;', '&quot;', '&#039;', '&#038;', '&amp;', "\n", "\r" ), array( '<', '>', '"', "'", '&', '&', ' ', ' ' ), $katex );
-				return '<code class="language-katex katex-inline">' . trim( $katex ) . '</code>';
+				return '<code class="katex-inline">' . trim( $katex ) . '</code>';
 			}
 		}, $content );
 
